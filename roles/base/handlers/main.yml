@@ -5,6 +5,12 @@
     state: reloaded
     enabled: true
 
+- name: Updating {{ iteml }} configuration
+  service:
+    name: "{{ item }}"
+    state: reloaded
+    enabled: true
+
 - name: Enabling bruteforce mitigation
   service:
     name: fail2ban

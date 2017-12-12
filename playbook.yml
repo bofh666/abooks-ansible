@@ -1,7 +1,7 @@
 ---
 - name: abooks frontend prerequisites installation
   hosts:
-    - ovh
+    - test
   roles:
     - base
     - percona
@@ -10,6 +10,6 @@
 
 - name: abooks deployment
   hosts:
-    - ovh
+    - test
   roles:
     - deploy
