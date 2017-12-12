@@ -1,0 +1,27 @@
+---
+hostname: "front.abooks.zone"
+time_zone: "Europe/Moscow"
+yum_remove_pkgs:
+  - chrony
+  - mlocate
+  - NetworkManager
+  - NetworkManager-libnm
+  - NetworkManager-team
+  - NetworkManager-tui
+  - NetworkManager-wifi
+yum_install_pkgs:
+  - bash-completion
+  - fail2ban
+  - htop
+  - iftop
+  - iotop
+  - iptables-services
+  - lsof
+  - mc
+  - ntp
+  - pciutils
+  - rsync
+  - smartmontools
+  - unzip
+  - wget
+  - yum-utils

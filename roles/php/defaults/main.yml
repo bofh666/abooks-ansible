@@ -1,0 +1,13 @@
+---
+php_repo_url: http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+php_repo_name: remi-php56
+php_modules:
+  - cli
+  - gd
+  - intl
+  - mcrypt
+  - mysqlnd
+  - pdo
+  - pspell
+  - tcpdf
+php_max_children: 100

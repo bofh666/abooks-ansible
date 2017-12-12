@@ -1,0 +1,2 @@
+---
+nginx_baseurl: http://nginx.org/packages/centos/7/$basearch/

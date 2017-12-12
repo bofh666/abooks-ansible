@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+[www]
+user = apache
+group = apache
+listen = /run/php-fpm.sock
+listen.owner = apache
+listen.group = apache
+listen.mode = 0666
+pm = ondemand
+pm.max_children = {{ php_max_children }}
+chdir = /
+catch_workers_output = yes
+pm.status_path = /php-fpm-stat

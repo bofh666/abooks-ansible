@@ -1,0 +1,12 @@
+---
+- name: Fixing system user's group membership
+  user:
+    name: nginx
+    group: apache
+    append: true
+
+- name: Deploying database
+  include_tasks: database.yml
+
+- name: Deploying flat files
+  include_tasks: flat_files.yml

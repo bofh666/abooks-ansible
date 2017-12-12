@@ -1,0 +1,30 @@
+---
+- name: Removing obstructive packages
+  yum:
+    name: "{{ item }}"
+    state: removed
+  with_items: "{{ yum_remove_pkgs }}"
+
+- name: Installing EPEL repo
+  yum:
+    name: epel-release
+    state: installed
+
+- name: Importing GPG keys
+  rpm_key:
+    key: "{{ item }}"
+  with_items:
+    - /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+    - /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+
+- name: Upgrading the system
+  yum:
+    name: '*'
+    state: latest
+
+- name: Installing base packages
+  yum:
+    name: "{{ item }}"
+    state: installed
+    update_cache: true
+  with_items: "{{ yum_install_pkgs }}"

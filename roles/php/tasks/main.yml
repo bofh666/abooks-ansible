@@ -1,0 +1,33 @@
+---
+- name: Installing REMI repos
+  yum:
+    name: "{{ php_repo_url }}"
+    state: installed
+
+- name: Enabling specific REMI repo
+  command: yum-config-manager --enable {{ php_repo_name }}
+
+- name: Installing php-fpm
+  yum:
+    name: php-fpm
+    state: installed
+
+- name: Installing php modules
+  yum:
+    name: php-{{ item }}
+    state: installed
+  with_items: "{{ php_modules }}"
+  when: php_modules is defined
+
+- name: Updating php configuration
+  template:
+    src: php.ini.j2
+    dest: /etc/php.ini
+    backup: true
+
+- name: Configuring php-fpm pool
+  template:
+    src: www.conf.j2
+    dest: /etc/php-fpm.d/www.conf
+    backup: true
+  notify: Restarting php-fpm service

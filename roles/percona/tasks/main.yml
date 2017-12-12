@@ -1,0 +1,52 @@
+---
+- name: Installing Percona repo
+  yum:
+    name: "{{ percona_repo_url }}"
+    state: installed
+
+- name: Installing Percona server
+  yum:
+    name: "{{ percona_release }}"
+    state: installed
+
+- name: Install Python MySQL support
+  yum:
+    name: MySQL-python
+    state: installed
+
+- name: Enableing and starting Percona server for the first time
+  service:
+    name: mysqld
+    state: started
+    enabled: true
+
+- name: Getting temporary MySQL root password
+  shell: grep generated /var/log/mysqld.log | awk '{ print $NF }'
+  register: mysql_temp_root
+
+- name: Setting MySQL root password
+  command: mysql -u root -p{{ mysql_temp_root.stdout }} --connect-expired-password -e "SET PASSWORD = PASSWORD('{{ percona_root_password }}')"
+  ignore_errors: true
+
+- name: Enabling passwordless MySQL login for root
+  template:
+    src: .my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Creating Percona Server configuration
+  template:
+    src: mysqld.cnf.j2
+    dest: /etc/percona-server.conf.d/mysqld.cnf
+    backup: yes
+  notify: Restarting Percona Server service
+
+- name: Creating Percona recommended functions
+  command: mysql -e '{{ item }}'
+  with_items:
+    - CREATE FUNCTION fnv1a_64 RETURNS INTEGER SONAME "libfnv1a_udf.so"
+    - CREATE FUNCTION fnv_64 RETURNS INTEGER SONAME "libfnv_udf.so"
+    - CREATE FUNCTION murmur_hash RETURNS INTEGER SONAME "libmurmur_udf.so"
+  ignore_errors: true

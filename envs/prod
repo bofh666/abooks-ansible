@@ -1,0 +1,14 @@
+[hetzner]
+176.9.121.213 hostname="abooks.zone"
+
+[bulletproof_vps]
+176.123.7.80  hostname="front01.abooks.zone"
+
+[bulletproof_dedic]
+176.123.7.155 hostname="front.abooks.zone"
+
+[ovh]
+54.36.178.74  hostname="front.abooks.zone"
+
+[test]
+192.168.1.155 hostname="test.abooks.zone"

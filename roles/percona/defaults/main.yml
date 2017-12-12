@@ -1,0 +1,4 @@
+---
+percona_repo_url: http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm
+percona_release: Percona-Server-server-57
+percona_root_password: yL509@zlI!mde@OY

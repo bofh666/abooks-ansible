@@ -1,0 +1,15 @@
+---
+- name: abooks frontend prerequisites installation
+  hosts:
+    - ovh
+  roles:
+    - base
+    - percona
+    - nginx
+    - php
+
+- name: abooks deployment
+  hosts:
+    - ovh
+  roles:
+    - deploy

@@ -1,0 +1,41 @@
+---
+- name: Creating dedicated user
+  user:
+    name: abooks
+    append: true
+    groups: adm,apache,root
+    password: "{{ deploy_user_pwd }}"
+    shell: /bin/bash
+    state: present
+
+- name: Downloading flat files
+  unarchive:
+    creates: /home/abooks/public_html
+    remote_src: yes
+    src: "{{ deploy_ff_dump }}"
+    dest: /home/abooks
+
+- name: Ensuring ownership and permissions are correct
+  file:
+    path: /home/abooks
+    owner: abooks
+    group: apache
+    mode: u=rwX,g=rwX
+    recurse: true
+
+- name: Creating symlink for nginx log directory
+  file:
+    src: /var/log/nginx
+    dest: /home/abooks/logs
+    state: link
+
+- name: Creating symlink for recent php-fpm log
+  file:
+    src: /var/log/php-fpm/error.log
+    dest: /home/abooks/logs/php-fpm.log
+    state: link
+
+- name: Changing permissions for php-fpm error log file
+  file:
+    path: /var/log/php-fpm/error.log
+    mode: 0640

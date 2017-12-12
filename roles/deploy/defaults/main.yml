@@ -1,0 +1,5 @@
+---
+deploy_db_dump: http://eidum.com.cy/75670316.db.gz
+deploy_ff_dump: http://eidum.com.cy/75670316.ff.tar.gz
+deploy_user_pwd: $6$wDT8Hp7upyJon51g$2h5m3BhYyIHn/k6wLAaKH.XNGZkSREDpdMXzY7fAmkQV3YjEz/IxWqE47NKnV.FQL0FsYidEk/vT93UT6KkR0.
+deploy_db_pwd: HS9VaVkx4Y$!

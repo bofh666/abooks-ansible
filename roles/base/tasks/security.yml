@@ -1,0 +1,27 @@
+---
+- name: Disabling SELinux
+  selinux:
+    state: disabled
+
+- name: Disabling APIPA
+  lineinfile:
+    path: /etc/sysconfig/network
+    line: "NOZEROCONF=yes"
+    state: present
+
+- name: Setting timezone
+  timezone:
+    name: "{{ time_zone }}"
+  notify: Enabling network time synchronization
+
+- name: Configuring fail2ban
+  copy:
+    src: jail.local
+    dest: /etc/fail2ban/jail.local
+  notify: Enabling bruteforce mitigation
+
+- name: Tightening SSH access
+  copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+  notify: Restarting SSH service

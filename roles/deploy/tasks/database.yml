@@ -1,0 +1,26 @@
+---
+- name: Downloading database dump
+  copy:
+    creates: /tmp/abooks.sql.gz
+    src: "{{ deploy_db_dump }}"
+    dest: /tmp/abooks.sql.gz
+
+- name: Creating database
+  mysql_db:
+    collation: utf8_bin
+    encoding: utf8
+    name: abooks
+    state: import
+    target: /tmp/abooks.sql.gz
+
+- name: Creating database user
+  mysql_user:
+    name: abooks
+    password: "{{ deploy_db_pwd}}"
+    priv: 'abooks.*:all'
+    state: present
+
+- name: Cleaning up
+  file:
+    path: /tmp/abooks.sql.gz
+    state: absent

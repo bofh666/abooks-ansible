@@ -1,0 +1,6 @@
+---
+- name: Restarting Percona Server service
+  service:
+    name: mysql
+    state: restarted
+    enabled: true
