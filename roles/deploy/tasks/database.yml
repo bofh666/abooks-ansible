@@ -1,9 +1,10 @@
 ---
 - name: Downloading database dump
-  copy:
-    creates: /tmp/abooks.sql.gz
+  unarchive:
+    creates: /tmp/75670316.sql
+    remote_src: true
     src: "{{ deploy_db_dump }}"
-    dest: /tmp/abooks.sql.gz
+    dest: /tmp
 
 - name: Creating database
   mysql_db:
@@ -11,7 +12,7 @@
     encoding: utf8
     name: abooks
     state: import
-    target: /tmp/abooks.sql.gz
+    target: /tmp/75670316.sql
 
 - name: Creating database user
   mysql_user:
@@ -22,5 +23,5 @@
 
 - name: Cleaning up
   file:
-    path: /tmp/abooks.sql.gz
+    path: /tmp/75670316.sql
     state: absent

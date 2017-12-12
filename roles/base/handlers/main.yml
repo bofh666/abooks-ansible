@@ -5,9 +5,15 @@
     state: reloaded
     enabled: true
 
-- name: Updating {{ iteml }} configuration
+- name: Updating ip6tables configuration
   service:
-    name: "{{ item }}"
+    name: ip6tables
+    state: reloaded
+    enabled: true
+
+- name: Updating iptables configuration
+  service:
+    name: iptables
     state: reloaded
     enabled: true
 

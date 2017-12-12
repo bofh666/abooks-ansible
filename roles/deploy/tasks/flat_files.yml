@@ -11,7 +11,7 @@
 - name: Downloading flat files
   unarchive:
     creates: /home/abooks/public_html
-    remote_src: yes
+    remote_src: true
     src: "{{ deploy_ff_dump }}"
     dest: /home/abooks
 
