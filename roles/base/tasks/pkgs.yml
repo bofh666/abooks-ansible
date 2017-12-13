@@ -5,9 +5,9 @@
     state: removed
   with_items: "{{ yum_remove_pkgs }}"
 
-- name: Installing EPEL repo
+- name: Installing EPEL repo and yum utils
   yum:
-    name: epel-release
+    name: epel-release,yum-utils
     state: installed
 
 - name: Importing GPG keys
@@ -21,6 +21,10 @@
   yum:
     name: '*'
     state: latest
+
+- command: needs-restarting -r
+  register: upgraded
+  ignore_errors: yes
 
 - name: Installing base packages
   yum:

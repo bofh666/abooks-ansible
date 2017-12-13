@@ -24,4 +24,3 @@ yum_install_pkgs:
   - smartmontools
   - unzip
   - wget
-  - yum-utils

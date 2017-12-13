@@ -2,6 +2,7 @@
 - name: Disabling SELinux
   selinux:
     state: disabled
+  register: sestatus
 
 - name: Disabling APIPA
   lineinfile:
@@ -14,7 +15,13 @@
     name: "{{ time_zone }}"
   notify: Enabling network time synchronization
 
-- name: Configuring firewall
+- name: Ensuring firewalld stopped and disabled
+  service:
+    name: firewalld
+    state: stopped
+    enabled: false
+
+- name: Configuring iptables
   template:
     src: "{{ item }}.j2"
     dest: /etc/sysconfig/{{ item }}
@@ -34,3 +41,14 @@
     src: sshd_config
     dest: /etc/ssh/sshd_config
   notify: Restarting SSH service
+
+- name: Ensuring services are started and enabled
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  with_items:
+    - iptables
+    - ip6tables
+    - fail2ban
+    - sshd

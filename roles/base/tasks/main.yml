@@ -4,21 +4,24 @@
     name: "{{ hostname }}"
 
 - name: Configuring system components
-  include_tasks: pkgs.yml
+  import_tasks: pkgs.yml
 
 - name: Configuring security
-  include_tasks: security.yml
+  import_tasks: security.yml
 
-- name: Waiting for...
+- name: Rebooting if needed
   shell: sleep 2 && reboot
   async: 1
   poll: 0
+  when: upgraded.rc == 1 or sestatus.changed
   ignore_errors: true
+  register: rebooting
 
-- name: ...reboot
+- name: Waiting for host to come up
   local_action:
     module: wait_for
     host: "{{ inventory_hostname }}"
     port: 22
     delay: 42
     state: started
+  when: rebooting.changed
