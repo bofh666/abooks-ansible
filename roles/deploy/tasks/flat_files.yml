@@ -8,6 +8,12 @@
     shell: /bin/bash
     state: present
 
+- name: Adding nginx to apache groups
+  user:
+    name: nginx
+    append: true
+    groups: apache
+
 - name: Downloading flat files
   unarchive:
     creates: /home/abooks/public_html
@@ -20,7 +26,7 @@
     path: /home/abooks
     owner: abooks
     group: apache
-    mode: u=rwX,g=rwX
+    mode: o=rwX,g=rwX
     recurse: true
 
 - name: Creating symlink for nginx log directory
